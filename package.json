@@ -1,0 +1,22 @@
+{
+  "name": "cloudgrab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cloudinary": "^1.4.6",
+    "exec": "^0.2.1",
+    "express": "^4.14.0",
+    "fs": "0.0.1-security",
+    "node-curl-download": "0.0.2",
+    "node-wget": "^0.4.2",
+    "superagent": "^3.0.0",
+    "trycatch": "^1.5.21",
+    "wget-improved": "^1.4.0"
+  }
+}
