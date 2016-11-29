@@ -5,7 +5,8 @@ var express = require('express'),
   	cloudinary = require('cloudinary'),
     fs = require('fs'),
 
-    directory = '/Users/smokey/Apps/cloudgrab/img',
+    // change this to desired local directory
+    directory = '/img',
     exec = require('exec'),
     wget = require('node-wget'),
 
@@ -14,6 +15,7 @@ var express = require('express'),
     done = false,
     port = 8080;
 
+// No reason to touch a browser
 // app.get('/', function (req, res) {
 //   request.get("https://789423776114718:BXCCmMwEuhohSFCpz7QL-gUV3oY@api.cloudinary.com/v1_1/galore/resources/image").end(function(err,response) {
 // 		if (err) {
@@ -77,6 +79,7 @@ var grabNext = function(cursor_page, callback) {
   }, {next_cursor: cursor, type: 'upload', max_results: 10, direction: "asc"});
 };
 
+// Run first time
 grabNext(cursor, function(err, res) {
   if (err) {
     console.log("~ FUCK ~")
@@ -85,36 +88,7 @@ grabNext(cursor, function(err, res) {
   }
 });
 
-// var grabNext = cloudinary.api.resources(function(result) {
-//   // console.log(result);
-//   cursor = result.next_cursor;
-//   result.resources.asyncEach(function(item, resume) {
-//     var listUrl = item.url,
-//         itemName = listUrl.substr(listUrl.lastIndexOf('/') + 1);
-//
-//     var wget = 'wget -P ' + directory + ' ' + listUrl;
-//
-//     fs.exists(itemName, function(exists) {
-//       if (exists) {
-//         console.log(exists);
-//         return;
-//       } else {
-//         var child = exec(wget, function(err, stdout, stderr) {
-//             if (err) {
-//               console.log(err);
-//             } else {
-//               console.log('stdout: ' + stdout);
-//               console.log('stderr: ' + stderr);
-//               console.log(itemName + ' downloaded to ' + directory);
-//             }
-//         });
-//         resume();
-//       }
-//     });
-//   });
-//
-// }, {next_cursor: cursor, type: 'upload', max_results: 30});
-
+// Nice iterator ala https://blog.jcoglan.com/2010/08/30/the-potentially-asynchronous-loop/
 Array.prototype.asyncEach = function(iterator) {
   var list    = this,
       n       = list.length,
@@ -156,24 +130,6 @@ Array.prototype.asyncEach = function(iterator) {
   };
   resume();
 };
-
-// Function to download file using wget
-// var download_file_wget = function(file_url, file_name) {
-//
-//     // extract the file name
-//     // var file_name = file_url.parse(file_url).pathname.split('/').pop();
-//     // compose the wget command
-//     var wget = 'wget -P ' + directory + ' ' + file_url;
-//     // excute wget using child_process' exec function
-//
-//     var child = exec(wget, function(err, stdout, stderr) {
-//         if (err) {
-//           throw err;
-//         } else {
-//           console.log(file_name + ' downloaded to ' + directory);
-//         }
-//     });
-// };
 
 var server = app.listen(port, function () {
   var host = server.address().address;
